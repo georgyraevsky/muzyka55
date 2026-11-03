@@ -1,0 +1,281 @@
+@import "tailwindcss";
+
+@source "../../index.html";
+@source "../js/*.js";
+
+/* ============================================================
+   Светлая концертная эстетика: алебастр, белый, бронза.
+   ============================================================ */
+@theme {
+  --color-ivory: #faf7f2;
+  --color-paper: #ffffff;
+  --color-ink: #181614;
+  --color-muted: #6e675f;
+  --color-bronze: #8a6234;
+  --color-bronze-deep: #6f4e28;
+
+  --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-sans: "Onest", ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background: var(--color-ivory);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+  }
+
+  [id] {
+    scroll-margin-top: 6rem;
+  }
+
+  ::selection {
+    background: var(--color-bronze);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-bronze);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  /* Карточка: белый лист с деликатной рамкой и мягкой тенью */
+  .sheet {
+    background: var(--color-paper);
+    border: 1px solid rgba(24, 22, 20, 0.08);
+    border-radius: 1.25rem;
+    box-shadow:
+      0 1px 2px rgba(24, 22, 20, 0.04),
+      0 12px 32px -18px rgba(24, 22, 20, 0.16);
+    transition:
+      box-shadow 0.6s var(--ease-expo),
+      transform 0.6s var(--ease-expo);
+  }
+
+  .sheet-lift:hover {
+    box-shadow:
+      0 1px 2px rgba(24, 22, 20, 0.05),
+      0 24px 56px -24px rgba(24, 22, 20, 0.22);
+    transform: translateY(-4px);
+  }
+
+  /* Нотный стан: 5 параллельных линий между секциями */
+  .stave {
+    height: 16px;
+    opacity: 0.07;
+    background: repeating-linear-gradient(
+      to bottom,
+      #181614 0px,
+      #181614 1px,
+      transparent 1px,
+      transparent 3.75px
+    );
+  }
+}
+
+@layer utilities {
+  /* Появление при скролле */
+  .reveal {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+    filter: blur(5px);
+    transition:
+      opacity 0.9s var(--ease-expo),
+      transform 1s var(--ease-expo),
+      filter 0.9s var(--ease-expo);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  .reveal.is-in {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    filter: blur(0);
+    will-change: auto;
+  }
+
+  /* Подчёркивание в навигации */
+  .nav-link {
+    position: relative;
+  }
+
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    height: 1px;
+    width: 100%;
+    background: var(--color-bronze);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.5s var(--ease-expo);
+  }
+
+  .nav-link:hover::after,
+  .nav-link:focus-visible::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  /* Эквалайзер: тонкие вертикальные линии */
+  @keyframes eqPulse {
+    0%,
+    100% {
+      transform: scaleY(0.32);
+    }
+    50% {
+      transform: scaleY(1);
+    }
+  }
+
+  .eq {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 22px;
+  }
+
+  .eq span {
+    display: block;
+    width: 2px;
+    height: 100%;
+    background: var(--color-bronze);
+    border-radius: 1px;
+    transform-origin: bottom;
+    animation: eqPulse 1.8s var(--ease-smooth) infinite;
+  }
+
+  .eq span:nth-child(1) { animation-delay: 0ms; }
+  .eq span:nth-child(2) { animation-delay: 160ms; }
+  .eq span:nth-child(3) { animation-delay: 320ms; }
+  .eq span:nth-child(4) { animation-delay: 90ms; }
+  .eq span:nth-child(5) { animation-delay: 250ms; }
+  .eq span:nth-child(6) { animation-delay: 410ms; }
+  .eq span:nth-child(7) { animation-delay: 200ms; }
+
+  /* Мехи аккордеона: карточки программ плавно расширяются при наведении */
+  .bellows img {
+    transition: transform 0.9s var(--ease-expo);
+  }
+
+  .sheet-lift:hover .bellows img {
+    transform: scale(1.04);
+  }
+
+  @media (min-width: 768px) and (hover: hover) {
+    #programs .bellows {
+      transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      transform-origin: center;
+    }
+
+    #programs .bellows:hover {
+      transform: scale(1.035) translateY(-4px);
+      z-index: 2;
+    }
+  }
+
+  /* Разделитель-мехи: 5 линий нотного стана мягко «дышат» */
+  @keyframes bellowsBreath {
+    0%,
+    100% {
+      opacity: 0.06;
+      transform: scaleY(1);
+    }
+    50% {
+      opacity: 0.13;
+      transform: scaleY(1.35);
+    }
+  }
+
+  .stave {
+    animation: bellowsBreath 7s var(--ease-smooth) infinite;
+    transform-origin: center;
+  }
+
+  .stave:nth-of-type(even) {
+    animation-delay: -3.5s;
+  }
+
+  /* Гамбургер → крестик */
+  .bar {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: 1px;
+    width: 16px;
+    background: currentColor;
+    transition: transform 0.55s var(--ease-expo);
+  }
+
+  .bar-1 {
+    transform: translate(-50%, -4px);
+  }
+
+  .bar-2 {
+    transform: translate(-50%, 3px);
+  }
+
+  #navToggle[aria-expanded="true"] .bar-1 {
+    transform: translate(-50%, -0.5px) rotate(45deg);
+  }
+
+  #navToggle[aria-expanded="true"] .bar-2 {
+    transform: translate(-50%, -0.5px) rotate(-45deg);
+  }
+
+  /* Ссылки мобильного меню встают лесенкой */
+  .menu-link {
+    opacity: 0;
+    transform: translate3d(0, 1.5rem, 0);
+    transition:
+      opacity 0.6s var(--ease-expo),
+      transform 0.75s var(--ease-expo);
+    transition-delay: calc(var(--i, 0) * 65ms + 90ms);
+  }
+
+  #mobileMenu.is-open .menu-link {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .btn-pill:active,
+  button:active,
+  a.rounded-full:active {
+    transform: scale(0.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+
+  .eq span,
+  .stave {
+    animation: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

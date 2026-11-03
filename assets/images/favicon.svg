@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Георгий Раевский — музыкальное шоу">
+  <rect width="64" height="64" rx="15" fill="#0b0908"/>
+  <rect x="0.8" y="0.8" width="62.4" height="62.4" rx="14.3" fill="none" stroke="#c7a26a" stroke-opacity="0.45" stroke-width="1.6"/>
+  <g stroke="#c7a26a" stroke-width="2" stroke-linecap="round" opacity="0.5">
+    <path d="M23 21v22M29 21v22M35 21v22M41 21v22"/>
+  </g>
+  <path d="M32 14.5 38.4 32a6.6 6.6 0 1 1-12.8 0L32 14.5Z" fill="none" stroke="#f4eee5" stroke-width="1.8" stroke-linejoin="round"/>
+  <circle cx="32" cy="38" r="2.4" fill="#c7a26a"/>
+</svg>
