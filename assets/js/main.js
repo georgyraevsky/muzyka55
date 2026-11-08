@@ -49,9 +49,13 @@
     facade.addEventListener("click", () => {
       promo.play();
     });
+    // прячем заставку только на время воспроизведения: после паузы
+    // нативные элементы управления должны остаться доступными
     promo.addEventListener("play", hideFacade);
-    promo.addEventListener("pause", showFacade);
-    promo.addEventListener("ended", showFacade);
+    promo.addEventListener("ended", () => {
+      promo.currentTime = 0;
+      showFacade();
+    });
   }
 
   /* ---------- 3. Одновременно звучит только одно видео ---------- */

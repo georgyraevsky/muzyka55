@@ -230,18 +230,19 @@
 
     <div class="reveal mt-10" style="--reveal-delay:100ms">
       <div class="sheet overflow-hidden p-2.5">
-        <div class="relative overflow-hidden rounded-[0.9rem] bg-ink/5">
+        <div id="promoWrap" class="relative overflow-hidden rounded-[0.9rem] bg-ink/5">
           <video id="promoVideo" class="aspect-video w-full object-cover"
                  src="assets/video/promo.mp4"
-                 poster="assets/images/video-cover.webp"
-                 controls playsinline preload="metadata" width="1280" height="720">
+                 poster="assets/images/promo-poster.webp"
+                 controls playsinline preload="metadata" width="1920" height="1080">
             Ваш браузер не поддерживает видео. Скачайте файл напрямую:
             <a href="assets/video/promo.mp4">промо-видео</a>.
           </video>
-          <button type="button" id="videoFacade" class="group absolute inset-0 flex items-center justify-center bg-ink/25 transition-colors duration-500 hover:bg-ink/15" aria-label="Воспроизвести промо-видео">
+          <button type="button" id="videoFacade" class="group absolute inset-0 z-10 flex items-center justify-center bg-ink/25 transition-colors duration-500 hover:bg-ink/15" aria-label="Воспроизвести промо-видео">
             <span class="flex h-16 w-16 items-center justify-center rounded-full bg-paper/95 shadow-[0_8px_32px_-8px_rgba(24,22,20,0.4)] transition-transform duration-500 ease-expo group-hover:scale-105 sm:h-20 sm:w-20">
               <svg width="20" height="22" viewBox="0 0 20 22" fill="none" aria-hidden="true"><path d="M1 1.5v19l17-9.5-17-9.5Z" fill="#181614"/></svg>
             </span>
+            <span class="sr-only">Смотреть промо-видео, 50 секунд</span>
           </button>
         </div>
       </div>
